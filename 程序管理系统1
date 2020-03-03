@@ -1,0 +1,365 @@
+#include<stdio.h> 
+#include<malloc.h>
+#include<stdlib.h>
+#include<string.h>
+
+
+struct student
+{
+    char name[20];
+    char number[20];
+    float yuwen;
+    float shuxue;
+    float yingyu;
+    float lishi;
+    float chengxu;
+    float tiyu;
+    struct student *next;
+};
+
+
+
+//1,创建链表，并输入学生信息 
+struct student *creat()
+{ 
+	int n,i;
+	FILE *fp;
+	struct student *p,*q,*head;
+	p=q=(struct student *)malloc(sizeof(struct student));
+	printf("请输入总人数：");
+	scanf("%d",&n);
+	if((fp=fopen("E:\\学生各科成绩.txt","w"))==NULL)
+	{
+		printf("can't open file\n");
+		exit(1);
+	}
+	head=p;
+	printf("请输入姓名\t学号\t语文\t数学\t英语\t历史\t程序\t体育\n");
+	scanf("%s %s %f %f %f %f %f %f",p->name,p->number,&p->yuwen,&p->shuxue,
+								&p->yingyu,&p->lishi,&p->chengxu,&p->tiyu); 
+	fprintf(fp,"%s %s %f %f %f %f %f %f\n",p->name,p->number,p->yuwen,p->shuxue,
+								p->yingyu,p->lishi,p->chengxu,p->tiyu);
+	for(i=1;i<n;i++)
+	{
+		q=(struct student *)malloc(sizeof(struct student));
+		scanf("%s %s %f %f %f %f %f %f",q->name,q->number,&q->yuwen,&q->shuxue,
+								&q->yingyu,&q->lishi,&q->chengxu,&q->tiyu); 
+		fprintf(fp,"%s %s %f %f %f %f %f %f\n",q->name,q->number,q->yuwen,q->shuxue,
+								q->yingyu,q->lishi,q->chengxu,q->tiyu);
+		p->next=q;
+		p=q;
+	}
+	p->next=NULL;
+	fclose(fp);
+	
+	p=head;
+	if((fp=fopen("E:\\学生各科成绩.txt","r"))==NULL)
+	{
+		printf("can't open file\n");
+		exit(1);
+	}
+	printf("\n学生成绩单已输入完毕，成绩单如下\n");
+	for(i=0;i<n;i++)
+	{
+		printf("%s %s %f %f %f %f %f %f\n",p->name,p->number,p->yuwen,p->shuxue,
+								p->yingyu,p->lishi,p->chengxu,p->tiyu);
+		p=p->next;
+	}
+	fclose(fp);
+	return head;
+}
+
+
+
+
+//2-单科成绩录入
+void luru(struct student *head)
+{
+	void luruyuwen(struct student *head);
+	void lurushuxue(struct student *head);
+	void luruyingyu(struct student *head);
+	void lurulishi(struct student *head);
+	void luruchengxu(struct student *head);
+	void lurutiyu(struct student *head);
+	int a;
+	printf("\n请输入你想录入的课程序号\n");
+	printf("1：语文成绩录入\n");
+	printf("2：数学成绩录入\n");
+	printf("3：英语成绩录入\n");
+	printf("4：历史成绩录入\n");
+	printf("5：程序成绩录入\n");
+	printf("6：体育成绩录入\n");
+	printf("0：退出\n");
+	scanf("%d",&a);
+	while(a!=0)
+	{ 
+		switch(a)
+		{
+			case 1:
+				luruyuwen(head);
+				break;
+			case 2:
+				lurushuxue(head);
+				break;
+			case 3:
+				luruyingyu(head);
+				break;
+			case 4:
+				lurulishi(head);
+				break;
+			case 5:
+				luruchengxu(head);
+				break;
+			case 6:
+				lurutiyu(head);
+				break;
+			case 0:
+				printf("\n退出单科成绩录入系统\n");
+				break;
+		}
+		scanf("%d",&a);
+	} 
+} 
+
+
+//2-1-单科成绩录入--语文 
+void luruyuwen(struct student *head)
+{
+	struct student *p;
+	FILE *fp;
+	if((fp=fopen("E:\\学生单科成绩--语文.txt","w"))==NULL)
+	{
+		printf("can't open file\n");
+		exit(1);
+	}
+	p=head;
+	printf("\n请依次输入学生姓名  学号  语文成绩\n");
+	while(p!=NULL)
+	{
+		scanf("%s %s %f",p->name,p->number,&p->yuwen); 
+		fprintf(fp,"%s %s %f\n",p->name,p->number,p->yuwen);
+		p=p->next;
+	} 
+	fclose(fp);
+	printf("\n语文成绩已经录入完毕\n");
+}
+//2-1-单科成绩录入--数学 
+void lurushuxue(struct student *head)
+{
+	struct student *p;
+	FILE *fp;
+	if((fp=fopen("E:\\学生单科成绩--数学.txt","w"))==NULL)
+	{
+		printf("can't open file\n");
+		exit(1);
+	}
+	p=head;
+	printf("\n请依次输入学生姓名  学号  数学成绩\n");
+	while(p!=NULL)
+	{
+		scanf("%s %s %f",p->name,p->number,&p->shuxue); 
+		fprintf(fp,"%s %s %f\n",p->name,p->number,p->shuxue);
+		p=p->next;
+	} 
+	fclose(fp);
+	printf("\n数学成绩已经录入完毕\n");
+}
+//2-1-单科成绩录入--英语 
+void luruyingyu(struct student *head)
+{
+	struct student *p;
+	FILE *fp;
+	if((fp=fopen("E:\\学生单科成绩--英语.txt","w"))==NULL)
+	{
+		printf("can't open file\n");
+		exit(1);
+	}
+	p=head;
+	printf("\n请依次输入学生姓名  学号  英语成绩\n");
+	while(p!=NULL)
+	{
+		scanf("%s %s %f",p->name,p->number,&p->yingyu); 
+		fprintf(fp,"%s %s %f\n",p->name,p->number,p->yingyu);
+		p=p->next;
+	} 
+	fclose(fp);
+	printf("\n英语成绩已经录入完毕\n");
+}
+//2-1-单科成绩录入--历史 
+void lurulishi(struct student *head)
+{
+	struct student *p;
+	FILE *fp;
+	if((fp=fopen("E:\\学生单科成绩--历史.txt","w"))==NULL)
+	{
+		printf("can't open file\n");
+		exit(1);
+	}
+	p=head;
+	printf("\n请依次输入学生姓名  学号  历史成绩\n");
+	while(p!=NULL)
+	{
+		scanf("%s %s %f",p->name,p->number,&p->lishi); 
+		fprintf(fp,"%s %s %f\n",p->name,p->number,p->lishi);
+		p=p->next;
+	} 
+	fclose(fp);
+	printf("\n历史成绩已经录入完毕\n");
+}
+//2-1-单科成绩录入--程序 
+void luruchengxu(struct student *head)
+{
+	struct student *p;
+	FILE *fp;
+	if((fp=fopen("E:\\学生单科成绩--程序.txt","w"))==NULL)
+	{
+		printf("can't open file\n");
+		exit(1);
+	}
+	p=head;
+	printf("\n请依次输入学生姓名  学号  语文成绩\n");
+	while(p!=NULL)
+	{
+		scanf("%s %s %f",p->name,p->number,&p->chengxu); 
+		fprintf(fp,"%s %s %f\n",p->name,p->number,p->chengxu);
+		p=p->next;
+	} 
+	fclose(fp);
+	printf("\n程序成绩已经录入完毕\n");
+}
+//2-1-单科成绩录入--体育 
+void lurutiyu(struct student *head)
+{
+	struct student *p;
+	FILE *fp;
+	if((fp=fopen("E:\\学生单科成绩--体育.txt","w"))==NULL)
+	{
+		printf("can't open file\n");
+		exit(1);
+	}
+	p=head;
+	printf("\n请依次输入学生姓名  学号  体育成绩\n");
+	while(p!=NULL)
+	{
+		scanf("%s %s %f",p->name,p->number,&p->tiyu); 
+		fprintf(fp,"%s %s %f\n",p->name,p->number,p->tiyu);
+		p=p->next;
+	} 
+	fclose(fp);
+	printf("\n体育成绩已经录入完毕\n");
+}
+
+
+
+//5-统计所有不及格科目超过两科的学生名单
+void bujige(struct student *head)
+{
+	FILE *fp;
+	struct student *p;
+	int sum=0;
+	p=head;
+	if(p==NULL){
+		return ;
+	}
+	
+	if((fp= fopen("超过两科不及格的学生成绩.txt", "w")) == NULL) {
+		printf("file can not open\n");
+		exit(1);
+	}
+	
+	printf("\n以下为不及格目超过两科的学生名单\n");
+	printf("姓名\t学号\t语文\t数学\t英语\t历史\t程序\t体育\n");
+	while(p!=NULL)
+	{
+		if(p->yuwen<60)
+		{
+			sum++;
+		}
+		if(p->shuxue<60)
+		{
+			sum++;
+		}
+		if(p->yingyu<60)
+		{
+			sum++;
+		}
+		if(p->chengxu<60)
+		{
+			sum++;
+		}
+		if(p->lishi<60)
+		{
+			sum++;
+		}
+		if(p->tiyu<60)
+		{
+			sum++;
+		}
+		if(sum>=2)
+		{
+			printf("%s %s %f %f %f %f %f %f\n",p->name,p->number,p->yuwen,p->shuxue,
+								p->yingyu,p->lishi,p->chengxu,p->tiyu);
+			fprintf(fp,"%s %s %f %f %f %f %f %f\n",p->name,p->number,p->yuwen,p->shuxue,
+								p->yingyu,p->lishi,p->chengxu,p->tiyu);
+		}
+		sum=0;
+		p=p->next;
+	}
+	printf("不及格科目超过两科的学生名单如上\n");
+	fclose(fp);
+}
+
+
+
+//0-主函数 
+int main()
+{
+	printf("\n欢迎使用我的学生成绩管理系统！\n");
+	printf("\n首先，让我们来进行学生的基本信息录入把！\n");
+	struct student *creat(); 
+	struct student *head;
+	head=creat();
+	int choice;
+	printf("\n接下来，请开始你的表演。\n");
+	printf("\n输入1可录入学生单科成绩\n");
+	printf("\n输入2可增加学生的信息\n");
+	printf("\n输入3可删除学生基本成绩\n");
+	printf("\n输入4可修改学生基本成绩\n");
+	printf("\n输入5可查询班级内单科成绩\n");
+	printf("\n输入6可查询某学生单科成绩排名\n");
+	printf("\n输入7可查询所有不及格科目超过两科的学生名单\n");
+	printf("\n输入0可直接退出"); 
+	scanf("%d",&choice);
+	while(choice!=0)
+	{
+		switch(choice)
+		{
+			case 1:
+				luru(head);
+				break;
+			case 2:
+				zengjia(head);
+				break;
+			case 3:
+				shanchu(head);
+				break;
+			case 4:
+				xiugai(head);
+				break;
+			case 5:
+				danke(head);
+				break;
+			case 6:
+				i-danke(head);
+				break;
+			case 7:
+				bujige(head);
+				break;
+			case 0:
+				printf("\n欢迎下次使用\n"); 
+		}
+		scanf("%d",&choice);
+	}
+	
+	return 0;
+}
